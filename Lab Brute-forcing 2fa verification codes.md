@@ -171,9 +171,6 @@ In the meantime, I wrote a python script to do the same thing.
 
 ---------------------------------------------------------------------
 
-I used this script to start the attack
-
-![image](https://user-images.githubusercontent.com/90155329/133940796-a4adea5b-536f-463d-93c8-850e748d1f46.png)
 
 Eventually, we get the correct MFA code:
 
