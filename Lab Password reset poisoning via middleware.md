@@ -9,23 +9,23 @@ I will start by logging into wiener's account. This simulates an account that we
 
 Start by resetting wiener's account
 
-![[Pasted image 20210919190820.png]]
+![image](https://user-images.githubusercontent.com/90155329/134100392-e8433219-beb2-47bd-baef-da9102e3370f.png)
 
 This sent me the following link
 
-![[Pasted image 20210919191147.png]]
+![image](https://user-images.githubusercontent.com/90155329/134100408-5881846c-012a-4d11-b884-f7c9e9a3b7fb.png)
 
 https://ac9b1fee1e8e665880e516f9003c0058.web-security-academy.net/forgot-password?temp-forgot-password-token=xmOb90CgmcURcYvg7OnSUrp5abyJENtY
 
 I followed the link to the following password reset page:
 
-![[Pasted image 20210919191303.png]]
+![image](https://user-images.githubusercontent.com/90155329/134100426-584360b3-52fe-44c7-8e2e-6a64045830ae.png)
 
 Lets see what the request looks like when I reset the wiener user:
 
-![[Pasted image 20210919191422.png]]
+![image](https://user-images.githubusercontent.com/90155329/134100434-5e0409c1-e7b1-4066-95b1-154343ae3a85.png)
 
-![[Pasted image 20210919191446.png]]
+![image](https://user-images.githubusercontent.com/90155329/134100442-1fd08162-ad3d-41a3-9087-f4ea64beae5e.png)
 
 Now that I understand what a reset looks like, it would be very interesting to get Carlos's token. If I can get a reset token from Carlos's I can visit the password reset page and reset his account. 
 
@@ -38,37 +38,37 @@ First get the domain of my exploit server (that comes with Portswigger Labs)
 
  https://exploit-ac961fe91fc0608480697381015400a6.web-security-academy.net/exploit
  
- ![[Pasted image 20210920212941.png]]
+ ![image](https://user-images.githubusercontent.com/90155329/134100467-6537d55f-853e-4833-9f03-d21c530b665f.png)
 
 
 exploit-ac961fe91fc0608480697381015400a6.web-security-academy.net/exploit
 
 Reset wiener account
 
-![[Pasted image 20210920213020.png]]
+![image](https://user-images.githubusercontent.com/90155329/134100482-2cee1272-ee35-4415-853e-35476633eda0.png)
 
-intercept request wiht burp 
+intercept request with burp 
 
-![[Pasted image 20210920213040.png]]
+![image](https://user-images.githubusercontent.com/90155329/134100506-7623eaf5-4e5a-420e-8506-797091233563.png)
 
 Add the x-forward-host header with the domain of my exploit server.
 
 
-![[Pasted image 20210920214619.png]]
+![image](https://user-images.githubusercontent.com/90155329/134100514-b50e8e77-2a3d-4561-b517-9651d4d638b5.png)
 
 
 Since the x-forwarded-host was part of the http header, when carlos received the password reset email and clicks on it, a request to that reset link will be sent to the x-forward-host value. Visiting my web access logs, I can see the request with carlos's token.
 
 172.31.31.96    2021-09-21 01:46:26 +0000 "GET /forgot-password?temp-forgot-password-token=Sxh5lUws9FgWGMULFFBGSEpjMOcoA2SI HTTP/1.1" 404 "User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36"
 
-![[Pasted image 20210920214825.png]]
+![image](https://user-images.githubusercontent.com/90155329/134100528-71be84a0-1005-4226-8af4-a26fe2b7d74d.png)
 
 Now when I visit /forgot-password?temp-forgot-password-token=Sxh5lUws9FgWGMULFFBGSEpjMOcoA2SI, I can reset carlos's password
 
-![[Pasted image 20210920215022.png]]
+![image](https://user-images.githubusercontent.com/90155329/134100563-3101c1e2-27b8-499c-862e-b4f0ab1cfc77.png)
 
 Now I can login with carlos's credentials.
 
-![[Pasted image 20210920215044.png]]
+![image](https://user-images.githubusercontent.com/90155329/134100579-8d1b1a92-f1c2-4385-aed1-2ead66f8e36f.png)
 
-![[Pasted image 20210920215056.png]]
+![image](https://user-images.githubusercontent.com/90155329/134100598-f66df8b1-a745-476a-aa33-08a7aaab9a74.png)
