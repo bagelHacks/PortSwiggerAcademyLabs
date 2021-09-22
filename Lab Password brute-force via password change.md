@@ -8,13 +8,13 @@ Victim's username: carlos
 
 Start by logging in to wiener:peter
 
-![[Pasted image 20210921181248.png]]
+![image](https://user-images.githubusercontent.com/90155329/134266372-b44ce988-71f2-4696-8e0b-33b52bf683ba.png)
 
 This opens a new page where I can reset wiener's credentials
 
 I will reset wiener's password to "password123!" and intercept the request 
 
-![[Pasted image 20210921181734.png]]
+![image](https://user-images.githubusercontent.com/90155329/134266385-89f25c60-f9c6-4317-bd7d-ba2c371ebe79.png)
 
 Notice that this POST request contains a username field. This that we can send this request to carlos and if we can guess the password, it will change his password. 
 
@@ -22,13 +22,13 @@ We need to do some more testing.
 
 When I enter the incorrect password and different new password values, I get "Current password is incorrect"
 
-![[Pasted image 20210921192049.png]]
+![image](https://user-images.githubusercontent.com/90155329/134266399-5b36fc66-6ab0-492c-b407-823f3e226dd4.png)
 
 When I enter the password correct, and the new password correct, the password gets successfully reset 
 
 When I enter the current password correct, and the new password incorrect, I get "New passwords do not match"
 
-![[Pasted image 20210921192209.png]]
+![image](https://user-images.githubusercontent.com/90155329/134266409-917e30cd-97aa-40d5-8961-6b0746ac7f84.png)
 
 This is good, I will send one of the requests to intruder. The goal is to try and get the "New passwords do not match" error for the carlos user. If we can get this error it means that we are able to determine carlos's password 
 
@@ -37,17 +37,17 @@ Burp Intruder can be used to test different payloads on the same page.
 
 I sent one of the password resets to intruder and set the target position on the current-password value. This is where the payloads will rotate.
 
-![[Pasted image 20210921192840.png]]
+![image](https://user-images.githubusercontent.com/90155329/134266428-6d6e8dc9-9312-4245-846d-e647bc7e9d75.png)
 
 I loaded the password list as the payload
 
-![[Pasted image 20210921192627.png]]
+![image](https://user-images.githubusercontent.com/90155329/134266442-3f13ea48-eeb3-486e-90a1-e305e6bb3ecf.png)
 
 Added the grep option to check values that contain "New passwords do not match"
 
 I started the attack.
 
-![[Pasted image 20210921193547.png]]
+![image](https://user-images.githubusercontent.com/90155329/134266454-6f19cbad-e8dc-4f83-81db-2d7cfc57edeb.png)
 
 the password of "austin" returned the "New passwords do not match error"
 
@@ -58,12 +58,12 @@ This means we were able to determine password the password of the carlos user th
 I restarted the lab and wrote a python script to do the same attack 
 
 
-![[Pasted image 20210921202329.png]]
+![image](https://user-images.githubusercontent.com/90155329/134266480-6d09ede0-8ee3-44f8-a876-976bd66716b2.png)
 
 
-![[Pasted image 20210921202318.png]]
+![image](https://user-images.githubusercontent.com/90155329/134266489-0a67da6b-88cf-4881-a9e6-52c8b4158bbc.png)
 
-![[Pasted image 20210921202259.png]]
+![image](https://user-images.githubusercontent.com/90155329/134266508-a6873466-f4a5-4a45-b742-fabef0c78402.png)
 
 `
 		'''
