@@ -18,19 +18,19 @@ This command will cause the application to ping its loopback network adapter for
 
 This is what the lab landing page looks like 
 
-![[Pasted image 20210922233306.png]]
+![image](https://user-images.githubusercontent.com/90155329/135767679-8864efeb-2ac9-4d3b-80b4-1ce32b0c7d4e.png)
 
 I went to "Submit feedback" and the following page returned
 
-![[Pasted image 20210922233340.png]]
+![image](https://user-images.githubusercontent.com/90155329/135767688-7e1569e5-9bd7-4e20-9311-c8f89ae8842a.png)
 
 Since this is the piece that is vulnerable to command injection, I will intercept a request with Burp Intercept. 
 
-![[Pasted image 20210922233428.png]]
+![image](https://user-images.githubusercontent.com/90155329/135767705-e2bc8440-7a55-4ab7-a4b3-db9b07bc8a01.png)
 
 This is what the request looks like
 
-![[Pasted image 20210922233451.png]]
+![image](https://user-images.githubusercontent.com/90155329/135767716-ecfe435c-c419-402d-8203-07c53dacd8d7.png)
 
 I added a command to the "email" value. The following payload seems to work
 
@@ -44,4 +44,4 @@ After sending the payload, the application did not respond for about 20 seconds.
 
 This means that the application pinged 127.0.0.1 20 times successfully.
 
-![[Pasted image 20210922233836.png]]
+![image](https://user-images.githubusercontent.com/90155329/135767723-927a5406-afc4-4b26-a0ff-27ae2d649378.png)
