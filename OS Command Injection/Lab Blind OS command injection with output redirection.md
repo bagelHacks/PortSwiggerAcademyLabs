@@ -21,17 +21,17 @@ The > character sends the output from the whoami command to the specified file. 
 
 This is what the lab landing page  looks like 
 
-![[Pasted image 20210922234449.png]]
+![image](https://user-images.githubusercontent.com/90155329/135767912-b4e3e41b-da8c-465f-969d-dfaea7c9928e.png)
 
 I visited the "Submit feedback"  page which responded with the following
 
-![[Pasted image 20210922234515.png]]
+![image](https://user-images.githubusercontent.com/90155329/135767917-46a8366e-5c45-4b94-8865-0fa79f9d9e31.png)
 
 I entered the following values and intercepted the request with Burp Intercept. Intercept is good to see what web requests look like.
 
-![[Pasted image 20210922234609.png]]
+![image](https://user-images.githubusercontent.com/90155329/135767928-84c4de55-b039-4bcf-9e80-c2b177943ddd.png)
 
-![[Pasted image 20210922234624.png]]
+![image](https://user-images.githubusercontent.com/90155329/135767930-5cda6d9a-ef17-4f65-8f14-06b91cc58532.png)
 
 I sent the request to Burp Repeater. Repeater is good for testing a single page because I can quickly modify and test the requests. 
 
@@ -42,13 +42,13 @@ I will try adding the payload to the "Email" value. If the email value is using 
 
 csrf=LFdExmEb9vhICqGEcmoG88sQnBA6l8j4&name=bagelHacks&email=bagelHacks%40hacks.hacks;whoami > /var/www/static/whoami.txt &&subject=test&message=test
 
-![[Pasted image 20210922234842.png]]
+![image](https://user-images.githubusercontent.com/90155329/135767934-aa40bd94-be00-4442-8e34-54cfc241adaa.png)
 
 The above payload did not seem to work. 
 
 Eventually, I used the following payload which worked.
 
-![[Pasted image 20210923000318.png]]
+![image](https://user-images.githubusercontent.com/90155329/135767947-9abf7cdb-2a42-4ecc-9898-01706dab5140.png)
 
 csrf=LFdExmEb9vhICqGEcmoG88sQnBA6l8j4&name=bagelHacks&email=bagleHacks@hack.hack;`whoami>+/var/www/images/whoami.txt`&subject=test&message=test
 
@@ -57,6 +57,6 @@ In linux, back ticks are usually executed first which means in the above payload
 
 Visiting https://ac6e1f301f8dd56580ef1d6c001a00de.web-security-academy.net/image?filename=whoami.txt shows the results of the whoami output.
 
-![[Pasted image 20210923000324.png]]
+![image](https://user-images.githubusercontent.com/90155329/135767955-d2bea869-29d3-4055-97dd-7ed8e9166eff.png)
 
-![[Pasted image 20210923000334.png]]
+![image](https://user-images.githubusercontent.com/90155329/135767960-8f635858-2075-4cca-a730-ec4ea9c7702d.png)
